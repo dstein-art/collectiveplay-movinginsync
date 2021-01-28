@@ -22,8 +22,6 @@ let app = express();
 // Let my server app handle all request
 http.createServer(app).listen(port);
 
-
-
 // Tell my server app where to look for content to serve up in response to requests
 app.use(express.static('publics'));
 
