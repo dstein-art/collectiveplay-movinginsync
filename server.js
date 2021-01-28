@@ -1,3 +1,5 @@
+// Re-write your server from scratch step-by-step
+
 //1. Load the http server module
 //2. Get the port for my environment
 //3. Create a server
@@ -25,7 +27,7 @@ http.createServer(app).listen(port);
 // Tell my server app where to look for content to serve up in response to requests
 app.use(express.static('publics'));
 
-
+// Programming concepts to review:
 // 1. return
 // 2. callback function
 
