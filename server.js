@@ -3,18 +3,20 @@
 let http = require('http');
 let port = process.env.PORT; // 3032
 
+// Load the express functionality
+let express = require('express');
+
+// Make my express app
+let app = express();
+
 // Ask http to make me a server
-http.createServer(respondToRequest).listen(port);
+// Let my server app handle all request
+http.createServer(app).listen(port);
+
+// Tell my server app where to look for content to serve up in response to requests
+app.use(express.static('publics'));
+
 
 // 1. return
 // 2. callback function
 
-// What to do when server gets a request
-function respondToRequest(req, res){
-  console.log(req);
-  
-  // Hey I'm okay
-  res.writeHead(200);
-  res.end("Hey there", req);
-  
-}
