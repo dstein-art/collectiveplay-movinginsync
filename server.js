@@ -14,8 +14,7 @@
 // Make a basic web server
 // HyperText Transfer Protocol
 let http = require("http");
-let port = process.env.PORT || 3032;
-console.log(port)
+let port = process.env.PORT;
 
 // Load the express functionality
 let express = require("express");
