@@ -1,3 +1,5 @@
+// Cmd-Opt-S or Ctrl-Alt-S to format code
+
 // Re-write your server from scratch step-by-step
 
 //1. Load the http server module
@@ -11,11 +13,12 @@
 
 // Make a basic web server
 // HyperText Transfer Protocol
-let http = require('http');
-let port = process.env.PORT; // 3032
+let http = require("http");
+let port = process.env.PORT || 3032;
+console.log(port)
 
 // Load the express functionality
-let express = require('express');
+let express = require("express");
 
 // Make my express app
 let app = express();
@@ -25,9 +28,8 @@ let app = express();
 http.createServer(app).listen(port);
 
 // Tell my server app where to look for content to serve up in response to requests
-app.use(express.static('publics'));
+app.use(express.static("publics"));
 
 // Programming concepts to review:
 // 1. return
 // 2. callback function
-
