@@ -1,41 +1,39 @@
-// client-side js, loaded by index.html
-// run by the browser each time the page is loaded
-
-console.log("hello world :o");
-
-// define variables that reference elements on our page
-const dreamsList = document.getElementById("dreams");
-const dreamsForm = document.querySelector("form");
-
-// a helper function that creates a list item for a given dream
-function appendNewDream(dream) {
-  const newListItem = document.createElement("li");
-  newListItem.innerText = dream;
-  dreamsList.appendChild(newListItem);
+// Asking for permision for motion sensors on iOS 13+ devices
+if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+  document.body.addEventListener('click', function () {
+    DeviceOrientationEvent.requestPermission();
+    DeviceMotionEvent.requestPermission();
+  })
 }
 
-// fetch the initial list of dreams
-fetch("/dreams")
-  .then(response => response.json()) // parse the JSON from the server
-  .then(dreams => {
-    // remove the loading text
-    dreamsList.firstElementChild.remove();
-  
-    // iterate through every dream and add it to our page
-    dreams.forEach(appendNewDream);
-  
-    // listen for the form to be submitted and add a new dream when it is
-    dreamsForm.addEventListener("submit", event => {
-      // stop our form submission from refreshing the page
-      event.preventDefault();
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  textAlign(CENTER);
+}
 
-      // get dream value and add it to the list
-      let newDream = dreamsForm.elements.dream.value;
-      dreams.push(newDream);
-      appendNewDream(newDream);
+function draw() {
+  background(255);
+  noStroke();
+  fill(0);
 
-      // reset form
-      dreamsForm.reset();
-      dreamsForm.elements.dream.focus();
-    });
-  });
+  // Go back to corners
+  rectMode(CORNER);
+
+  // Calcaulate transparency of left-right
+  // and up-down halves based on tilt of device
+  // RotationXY gives you numbers from -180 to 180.
+  let lr = floor(rotationY);
+  let tb = floor(rotationX);
+  // Ignore flipped over device
+  lr = constrain(lr, -90, 90);
+  tb = constrain(tb, -90, 90);
+
+  // Map rotation to position
+  let x = map(lr, -90, 90, 0, width);
+  let y = map(tb, -90, 90, 0, height);
+  
+  // Draw ellipse
+  ellipse(x, y, 50, 50);
+  
+  console.log(x, y);
+}
