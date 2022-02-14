@@ -32,3 +32,25 @@ app.use(express.static("public"));
 // Programming concepts to review:
 // 1. return
 // 2. callback function
+
+
+// Listen for connections
+io.on(
+  "connection",
+  // Callback function on connection
+  // Comes back with a socket object
+  function(socket) {
+    console.log("HELLO", socket.id);
+    
+    // This connected socket listens for incoming messages called 'data'
+    socket.on('data', function(data){
+      
+      // Log the data that came in
+      console.log(data);
+      
+      // Send it back out to everyone
+      io.emit('data', data);
+    });
+    
+  }
+);
