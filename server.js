@@ -1,37 +1,21 @@
-// Cmd-Opt-S or Ctrl-Alt-S to format code
-
-// Re-write your server from scratch step-by-step
-
-//1. Load the http server module
-//2. Get the port for my environment
-//3. Create a server
-//4. Hook the server up to listen to the correct port
-//5. Load the express module
-//6. Make an express server app
-//7. Hook up the server to the express app
-//8. Tell the express app where to look to serve up content
-
-// Make a basic web server
-// HyperText Transfer Protocol
+/// Load http module
 let http = require("http");
-let port = process.env.PORT;
+let PORT = process.env.PORT;
 
-// Load the express functionality
+// Load express module
 let express = require("express");
-
-// Make my express app
 let app = express();
 
-// Ask http to make me a server
-// Let my server app handle all request
-http.createServer(app).listen(port);
+// Create server
+// Hook it up to listen to the correct PORT
+let server = http.createServer(app).listen(PORT);
 
-// Tell my server app where to look for content to serve up in response to requests
+// Point my app at the public folder to serve up the index.html file
 app.use(express.static("public"));
 
-// Programming concepts to review:
-// 1. return
-// 2. callback function
+// Load the socket.io functionality
+// Hook it up to the web server
+let io = require("socket.io")(server);
 
 
 // Listen for connections
