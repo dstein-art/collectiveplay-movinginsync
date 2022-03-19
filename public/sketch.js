@@ -9,8 +9,16 @@ socket.on("connect", function () {
 });
 
 function setup() {
+  background(255);
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER);
+  socket.on('data', function(data){
+    rectMode(CORNER);
+    fill(255,100,100);
+    // Draw ellipse
+    ellipse(screenwidth-data.x, screenheight-data.y, 25, 25);
+    
+  });
 }
 
 function mouseClicked() {
@@ -18,7 +26,7 @@ function mouseClicked() {
 }
 
 function draw() {
-  background(255);
+
   
   if (connected) {
     fill(100,100,255);
