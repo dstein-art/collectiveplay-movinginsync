@@ -16,7 +16,7 @@ function setup() {
     rectMode(CORNER);
     fill(255,100,100);
     // Draw ellipse
-    ellipse(screenwidth-data.x, screenheight-data.y, 25, 25);
+    ellipse(windowWidth-data.x, windowHeight-data.y, 25, 25);
     
   });
 }
