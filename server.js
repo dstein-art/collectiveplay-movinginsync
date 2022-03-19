@@ -1,6 +1,7 @@
 /// Load http module
 let http = require("http");
 let PORT = process.env.PORT;
+console.log(PORT);
 
 // Load express module
 let express = require("express");
