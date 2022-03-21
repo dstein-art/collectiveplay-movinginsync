@@ -15,7 +15,7 @@ const urlParams = new URLSearchParams(queryString);
 const player = urlParams.get('player')
   console.log(player);
 
-let user=player;
+let user=parseInt(player);
 
 function IsSafari() {
   var is_safari = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
@@ -73,8 +73,8 @@ function setup() {
       
     } else if ((data.user==1) && (user!=1)) {
       mx1=data.x;
-      mx1=data.y;
-      console.log(mx1);
+      my1=data.y;
+      console.log("user1"+mx1);
     } else if ((data.user==2) && (user!=2)) {
       mx2=data.x;
       my2=data.y;  
@@ -119,9 +119,17 @@ function draw() {
       lr = constrain(lr, -90, 90);
       tb = constrain(tb, -90, 90);
 
-      mx1 = map(lr, -90, 90, 0, 1);
-      my1 = map(tb, -90, 90, 0, 1);  
+      if (user==1) {
+        mx1 = map(lr, -90, 90, 0, 1);
+        my1 = map(tb, -90, 90, 0, 1);  
       socket.emit("data",{user: user, x: mx1, y: my1});
+
+      } else if (user==2) {
+        mx2 = map(lr, -90, 90, 0, 1);
+        my2 = map(tb, -90, 90, 0, 1);  
+      socket.emit("data",{user: user, x: mx2, y: my2});
+       
+      }
     }
   }
   
