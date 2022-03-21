@@ -6,7 +6,7 @@ let mx1=0;
 let my1=0;
 let mx2=0;
 let my2=0;
-let user=0;
+let user=1;
 
 function IsSafari() {
   var is_safari = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
@@ -48,10 +48,6 @@ function preload(){
   
   const queryString = window.location.search;
   console.log(queryString);
-  console.log(queryString);
-  const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get('player')
-  console.log(product);
 }
 
 function setup() {

@@ -48,10 +48,6 @@ function preload(){
   
   const queryString = window.location.search;
   console.log(queryString);
-  console.log(queryString);
-  const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get('player')
-  console.log(product);
 }
 
 function setup() {
