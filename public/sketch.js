@@ -2,10 +2,10 @@
 let simpleShader;
 let count;
 
-let mouse1X=0;
-let mouse1Y=0;
-let mouse2X=0;
-let mouse2Y=0;
+let mx1=0;
+let my1=0;
+let mx2=0;
+let my2=0;
 
 // Open and connect socket
 let socket = io();
@@ -46,16 +46,18 @@ function setup() {
     fill(255,100,100);
     // Draw ellipse
     //ellipse(windowWidth-data.x, windowHeight-data.y, 25, 25);
-    mouse2X=data.x;
-    mouse2Y=data.y;
+    mx2=data.x;
+    my2=data.y;
   });  
 }
 
+/*
 function mouseMoved() {
   socket.emit("data",{x: mouseX, y: mouseY});
   mouse1X=mouseX;
   mouse1Y=mouseY;
 }
+*/
 
 let lr=-1;
 let tb=-1;
@@ -68,8 +70,6 @@ function rotationChanged() {
 function draw() {  
   cnt++;
   
-  
-  
   // Calcaulate transparency of left-right
   // and up-down halves based on tilt of device
   // RotationXY gives you numbers from -180 to 180.
@@ -79,25 +79,23 @@ function draw() {
   // Map rotation to position
   if (rotationChanged) {
     lr = floor(rotationY);
-    tb = floor(rotationX);
+    tb = floor(rotationX-90);
     
     // Ignore flipped over device
     lr = constrain(lr, -90, 90);
     tb = constrain(tb, -90, 90);
-    socket.emit("data",{x: lr, y: tb});
-    mouseX1 = map(lr, -90, 90, 0, width);
-    mouseY1 = map(tb, -90, 90, 0, height);    
+
+    mx1 = map(lr, -90, 90, 0, 1);
+    my1 = map(tb, -90, 90, 0, 1);    
+    socket.emit("data",{x: mx1, y: my1});
   }
   
-
   
+  //let mx1 = map(mouse1X, 0, windowWidth, 0.0, 1.0);
+  //let my1 = map(mouse1Y, 0, windowHeight, 0.0, 1.0);
   
-  
-  let mx1 = map(mouse1X, 0, windowWidth, 0.0, 1.0);
-  let my1 = map(mouse1Y, 0, windowHeight, 0.0, 1.0);
-  
-  let mx2 = map(mouse2X, 0, windowWidth, 0.0, 1.0);
-  let my2 = map(mouse2Y, 0, windowHeight, 0.0, 1.0);  
+  //let mx2 = map(mouse2X, 0, windowWidth, 0.0, 1.0);
+  //let my2 = map(mouse2Y, 0, windowHeight, 0.0, 1.0);  
   
   // shader() sets the active shader with our shader
   shader(simpleShader);
@@ -107,17 +105,11 @@ function draw() {
 
   //simpleShader.setUniform('mouse2', [0.5+0.1*cos(cnt/600), 0.5+0.1*sin(cnt/570)]);
 
-  simpleShader.setUniform('resolution', [width,height]);
+  simpleShader.setUniform('resolution', [windowWidth,windowHeight]);
 
   simpleShader.setUniform('point1', [0.0,0.0]);
   simpleShader.setUniform('point2', [0.35,0.35]);
   simpleShader.setUniform('point3', [-0.25,0.5]);
-
-  /*
-  simpleShader.setUniform('point1', [sin(2+cnt/1000)+1.0,cos(3+cnt/1000)+1.0]);
-  simpleShader.setUniform('point2', [cos(4+cnt/1333)+1.0,sin(5+cnt/843)+1.0]);
-  simpleShader.setUniform('point3', [sin(6+cnt/897)+1.0,cos(7+cnt/993)+1.0]);
-  */
 
   
   // rect gives us some geometry on the screen
