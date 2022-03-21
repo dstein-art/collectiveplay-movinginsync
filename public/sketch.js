@@ -7,6 +7,14 @@ let my1=0;
 let mx2=0;
 let my2=0;
 
+function IsSafari() {
+  var is_safari = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
+  return is_safari;
+}
+
+//let isMobile=true;
+let isMobile = IsSafari(); //window.matchMedia("only screen and (max-width: 760px)").matches;
+
 // Open and connect socket
 let socket = io();
 let connected=0;
@@ -18,12 +26,14 @@ socket.on("connect", function () {
 });
 
 
-// Asking for permision for motion sensors on iOS 13+ devices
-if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-  document.body.addEventListener('click', function () {
-    DeviceOrientationEvent.requestPermission();
-    DeviceMotionEvent.requestPermission();
-  })
+if (isMobile) {
+  // Asking for permision for motion sensors on iOS 13+ devices
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    document.body.addEventListener('click', function () {
+      DeviceOrientationEvent.requestPermission();
+      DeviceMotionEvent.requestPermission();
+    })
+  }
 }
 
 function preload(){
@@ -80,17 +90,19 @@ function draw() {
 
   // Map rotation to position
   
-  if (connected && (rotationChanged)) {
-    lr = floor(rotationY);
-    tb = floor(rotationX-90);
-    
-    // Ignore flipped over device
-    lr = constrain(lr, -90, 90);
-    tb = constrain(tb, -90, 90);
+  if (isMobile) {
+    if (connected && (rotationChanged)) {
+      lr = floor(rotationY);
+      tb = floor(rotationX-90);
 
-    mx1 = map(lr, -90, 90, 0, 1);
-    my1 = map(tb, -90, 90, 0, 1);    
-    socket.emit("data",{x: mx1, y: my1});
+      // Ignore flipped over device
+      lr = constrain(lr, -90, 90);
+      tb = constrain(tb, -90, 90);
+
+      mx1 = map(lr, -90, 90, 0, 1);
+      my1 = map(tb, -90, 90, 0, 1);    
+      socket.emit("data",{x: mx1, y: my1});
+    }
   }
   
   
@@ -114,10 +126,8 @@ function draw() {
   simpleShader.setUniform('point2', [0.35,0.35]);
   simpleShader.setUniform('point3', [-0.25,0.5]);
 
-  
   // rect gives us some geometry on the screen
   rect(0,0,width, height);
-
 
 }
 
