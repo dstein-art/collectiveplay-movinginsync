@@ -6,7 +6,16 @@ let mx1=0;
 let my1=0;
 let mx2=0;
 let my2=0;
-let user=0;
+
+
+const queryString = window.location.search;
+//console.log(queryString);
+//console.log(queryString);
+const urlParams = new URLSearchParams(queryString);
+const player = urlParams.get('player')
+  console.log(player);
+
+let user=player;
 
 function IsSafari() {
   var is_safari = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
@@ -17,6 +26,7 @@ function IsSafari() {
 //let isMobile = IsSafari(); //window.matchMedia("only screen and (max-width: 760px)").matches;
 let isMobile = window.matchMedia("max-width: 860px").matches;
 // Open and connect socket
+isMobile=true;
 let socket = io();
 let connected=0;
 
@@ -46,12 +56,7 @@ function preload(){
   // these file types are usually .vert and .frag, but you can actually use anything. .glsl is another common one
   simpleShader = loadShader('texture.vert', 'texture.frag');
   
-  const queryString = window.location.search;
-  console.log(queryString);
-  console.log(queryString);
-  const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get('player')
-  console.log(product);
+
 }
 
 function setup() {
@@ -68,10 +73,12 @@ function setup() {
       
     } else if ((data.user==1) && (user!=1)) {
       mx1=data.x;
-      mx2=data.y;
+      mx1=data.y;
+      console.log(mx1);
     } else if ((data.user==2) && (user!=2)) {
       mx2=data.x;
       my2=data.y;  
+      console.log(mx2);
     }
   });  
 }
@@ -101,12 +108,9 @@ function draw() {
   // and up-down halves based on tilt of device
   // RotationXY gives you numbers from -180 to 180.
 
-
-
   // Map rotation to position
   
   if (isMobile) {
-    console.log('isMobile ', isMobile)
     if (connected && (rotationChanged)) {
       lr = floor(rotationY);
       tb = floor(rotationX-90);
@@ -117,7 +121,6 @@ function draw() {
 
       mx1 = map(lr, -90, 90, 0, 1);
       my1 = map(tb, -90, 90, 0, 1);  
-      console.log("emitting data;")
       socket.emit("data",{user: user, x: mx1, y: my1});
     }
   }
