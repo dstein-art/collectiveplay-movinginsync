@@ -2,6 +2,11 @@
 let simpleShader;
 let count;
 
+let mouse1X=0;
+let mouse1Y=0;
+let mouse2X=0;
+let mouse2Y=0;
+
 // Open and connect socket
 let socket = io();
 let connected=0;
@@ -28,19 +33,38 @@ function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
   noStroke();
   cnt=0.0;
+  socket.on('data', function(data){
+    rectMode(CORNER);
+    fill(255,100,100);
+    // Draw ellipse
+    //ellipse(windowWidth-data.x, windowHeight-data.y, 25, 25);
+    mouse2X=data.x;
+    mouse2Y=data.y;
+  });  
 }
+
+function mouseMoved() {
+  socket.emit("data",{x: mouseX, y: mouseY});
+  mouse1X=mouseX;
+  mouse1Y=mouseY;
+}
+
 
 function draw() {  
   cnt++;
+  let mx1 = map(mouse1X, 0, width, 0.0, 1.0);
+  let my1 = map(mouse1Y, 0, height, 0.0, 1.0);
   
-  let mx = map(mouseX, 0, width, 0.0, 1.0);
-  let my = map(mouseY, 0, height, 0.0, 1.0);
+  let mx2 = map(mouse2X, 0, width, 0.0, 1.0);
+  let my2 = map(mouse2Y, 0, height, 0.0, 1.0);  
   
   // shader() sets the active shader with our shader
   shader(simpleShader);
 
-  simpleShader.setUniform('mouse1', [mx, my]);
-  simpleShader.setUniform('mouse2', [0.5+0.1*cos(cnt/600), 0.5+0.1*sin(cnt/570)]);
+  simpleShader.setUniform('mouse1', [mx1, my1]);
+  simpleShader.setUniform('mouse2', [mx2, my2]);
+
+  //simpleShader.setUniform('mouse2', [0.5+0.1*cos(cnt/600), 0.5+0.1*sin(cnt/570)]);
 
   simpleShader.setUniform('resolution', [width,height]);
 
@@ -57,6 +81,7 @@ function draw() {
   
   // rect gives us some geometry on the screen
   rect(0,0,width, height);
+
 
 }
 

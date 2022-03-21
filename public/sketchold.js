@@ -26,6 +26,10 @@ function mouseMoved() {
   socket.emit("data",{x: mouseX, y: mouseY});
 }
 
+function drawDesign() {
+  
+}
+
 function draw() {
 
   

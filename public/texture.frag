@@ -23,9 +23,9 @@ void main (void) {
   vec2 st = 0.5*gl_FragCoord.xy/resolution.xy;
   st.y=1.0-st.y;
 
-  float dist1 = distance(st.xy,mst1+point1.xy)*4.0;
-  float dist2 = distance(st.xy,mst1+point2.xy)*4.0;
-  float dist3 = distance(st.xy,mst1+point3.xy)*4.0;
+  float dist1 = distance(st.xy,mst1+point1.xy)*5.0;
+  float dist2 = distance(st.xy,mst1+point2.xy)*5.0;
+  float dist3 = distance(st.xy,mst1+point3.xy)*5.0;
   
   float color1=dist1*dist2*dist3;
   color1=floor(color1);
@@ -38,9 +38,9 @@ void main (void) {
 
   // Mouse 2
 
-  dist1 = distance(st.xy,mst2+point1.xy)*4.0;
-  dist2 = distance(st.xy,mst2+point2.xy)*4.0;
-  dist3 = distance(st.xy,mst2+point3.xy)*4.0;
+  dist1 = distance(st.xy,mst2+point1.xy)*5.0;
+  dist2 = distance(st.xy,mst2+point2.xy)*5.0;
+  dist3 = distance(st.xy,mst2+point3.xy)*5.0;
   
   float color2=dist1*dist2*dist3;
   color2=floor(color2);
