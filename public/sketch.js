@@ -13,8 +13,8 @@ function IsSafari() {
 }
 
 //let isMobile=true;
-let isMobile = IsSafari(); //window.matchMedia("only screen and (max-width: 760px)").matches;
-
+//let isMobile = IsSafari(); //window.matchMedia("only screen and (max-width: 760px)").matches;
+let isMobile = window.matchMedia("only screen and (max-width: 860px)").matches;
 // Open and connect socket
 let socket = io();
 let connected=0;
@@ -91,6 +91,7 @@ function draw() {
   // Map rotation to position
   
   if (isMobile) {
+    console.log('isMobile ', isMobile)
     if (connected && (rotationChanged)) {
       lr = floor(rotationY);
       tb = floor(rotationX-90);
@@ -100,7 +101,8 @@ function draw() {
       tb = constrain(tb, -90, 90);
 
       mx1 = map(lr, -90, 90, 0, 1);
-      my1 = map(tb, -90, 90, 0, 1);    
+      my1 = map(tb, -90, 90, 0, 1);  
+      console.log("emitting data;")
       socket.emit("data",{x: mx1, y: my1});
     }
   }
