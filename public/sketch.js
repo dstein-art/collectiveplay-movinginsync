@@ -18,6 +18,14 @@ socket.on("connect", function () {
 });
 
 
+// Asking for permision for motion sensors on iOS 13+ devices
+if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+  document.body.addEventListener('click', function () {
+    DeviceOrientationEvent.requestPermission();
+    DeviceMotionEvent.requestPermission();
+  })
+}
+
 function preload(){
   // a shader is composed of two parts, a vertex shader, and a fragment shader
   // the vertex shader prepares the vertices and geometry to be drawn
@@ -49,9 +57,42 @@ function mouseMoved() {
   mouse1Y=mouseY;
 }
 
+let lr=-1;
+let tb=-1;
+
+function rotationChanged() {
+  return ((floor(rotationY) != lr) || (floor(rotationX) != tb));  
+}
+
 
 function draw() {  
   cnt++;
+  
+  
+  
+  // Calcaulate transparency of left-right
+  // and up-down halves based on tilt of device
+  // RotationXY gives you numbers from -180 to 180.
+
+
+
+  // Map rotation to position
+  if (rotationChanged) {
+    lr = floor(rotationY);
+    tb = floor(rotationX);
+    
+    // Ignore flipped over device
+    lr = constrain(lr, -90, 90);
+    tb = constrain(tb, -90, 90);
+    socket.emit("data",{x: lr, y: tb});
+    mouseX1 = map(lr, -90, 90, 0, width);
+    mouseY1 = map(tb, -90, 90, 0, height);    
+  }
+  
+
+  
+  
+  
   let mx1 = map(mouse1X, 0, windowWidth, 0.0, 1.0);
   let my1 = map(mouse1Y, 0, windowHeight, 0.0, 1.0);
   
