@@ -20,7 +20,7 @@ void main (void) {
 
 
   // Mouse 1
-  vec2 st = 1.0*gl_FragCoord.xy/resolution.xy;
+  vec2 st = 0.5*gl_FragCoord.xy/resolution.xy;
   st.y=1.0-st.y;
 
   float dist1 = distance(st.xy,mst1+point1.xy)*5.0;

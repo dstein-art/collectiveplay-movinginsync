@@ -53,9 +53,11 @@ function setup() {
 
 /*
 function mouseMoved() {
-  socket.emit("data",{x: mouseX, y: mouseY});
-  mouse1X=mouseX;
-  mouse1Y=mouseY;
+  if (connected) {
+    mx1 = map(mouseX, 0, windowWidth, 0.0, 1.0);
+    my1 = map(mouseY, 0, windowHeight, 0.0, 1.0);  
+    socket.emit("data",{x: mx1, y: my1});
+  }
 }
 */
 
@@ -77,7 +79,8 @@ function draw() {
 
 
   // Map rotation to position
-  if (rotationChanged) {
+  
+  if (connected && (rotationChanged)) {
     lr = floor(rotationY);
     tb = floor(rotationX-90);
     
