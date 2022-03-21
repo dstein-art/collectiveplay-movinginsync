@@ -34,7 +34,7 @@ io.on(
       console.log(data);
       
       // Send it back out to everyone
-      io.emit('data', data);
+      socket.broadcast.emit('data', data);
     });
     
   }
