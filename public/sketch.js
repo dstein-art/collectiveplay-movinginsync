@@ -52,11 +52,11 @@ function mouseMoved() {
 
 function draw() {  
   cnt++;
-  let mx1 = map(mouse1X, 0, width, 0.0, 1.0);
-  let my1 = map(mouse1Y, 0, height, 0.0, 1.0);
+  let mx1 = map(mouse1X, 0, windowWidth, 0.0, 1.0);
+  let my1 = map(mouse1Y, 0, windowHeight, 0.0, 1.0);
   
-  let mx2 = map(mouse2X, 0, width, 0.0, 1.0);
-  let my2 = map(mouse2Y, 0, height, 0.0, 1.0);  
+  let mx2 = map(mouse2X, 0, windowWidth, 0.0, 1.0);
+  let my2 = map(mouse2Y, 0, windowHeight, 0.0, 1.0);  
   
   // shader() sets the active shader with our shader
   shader(simpleShader);
