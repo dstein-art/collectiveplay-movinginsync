@@ -54,7 +54,7 @@ void main (void) {
   }
   
   if (distance(mst1,st)<0.025) {
-    myColor=vec4(1.0,0.0,0.0,0.4);
+    //myColor=vec4(1.0,0.0,0.0,0.4);
   } 
   
   if ((abs(st.x)<0.025) || (abs(st.x)>0.975)) {
